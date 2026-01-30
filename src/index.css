@@ -2,95 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 222 47% 5%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 5%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 20% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Custom Command Center Colors */
+    --action-red: 0 84% 60%;
+    --action-red-glow: 0 84% 50%;
+    --audio-green: 142 71% 45%;
+    --audio-green-glow: 142 71% 35%;
+    --main-blue: 217 91% 60%;
+    --main-blue-glow: 217 91% 50%;
+    --loading-amber: 45 93% 47%;
+    --loading-amber-glow: 45 93% 40%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Glassmorphism */
+    --glass-bg: 222 47% 8% / 0.8;
+    --glass-border: 217 33% 25% / 0.5;
 
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Gradients */
+    --gradient-dark: linear-gradient(180deg, hsl(222 47% 6%) 0%, hsl(222 47% 4%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(222 47% 10%) 0%, hsl(222 47% 7%) 100%);
+    --gradient-action: linear-gradient(135deg, hsl(0 84% 60% / 0.2) 0%, transparent 100%);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222 47% 5%;
     --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -100,6 +66,108 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    background: var(--gradient-dark);
+    min-height: 100vh;
   }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-card/80 backdrop-blur-xl border border-white/10 shadow-2xl;
+  }
+
+  .stream-tile {
+    @apply relative rounded-2xl overflow-hidden bg-card ring-2 ring-white/10 transition-all duration-300;
+  }
+
+  .stream-tile:hover {
+    @apply ring-primary/50 shadow-lg shadow-primary/10;
+  }
+
+  .stream-tile-main {
+    @apply ring-2 ring-primary shadow-lg shadow-primary/20;
+  }
+
+  .stream-tile-action {
+    animation: action-pulse 1.5s ease-in-out infinite;
+  }
+
+  .stream-tile-audio {
+    @apply ring-2 ring-[hsl(var(--audio-green))];
+  }
+
+  .control-bar {
+    @apply fixed bottom-4 left-1/2 -translate-x-1/2 glass-panel rounded-2xl px-6 py-3 flex items-center gap-4 z-50;
+  }
+
+  .action-badge {
+    @apply absolute top-3 left-3 px-2 py-1 rounded-md text-xs font-bold uppercase tracking-wider;
+    background: linear-gradient(135deg, hsl(var(--action-red)) 0%, hsl(var(--action-red-glow)) 100%);
+    animation: badge-pulse 1s ease-in-out infinite;
+  }
+
+  .live-badge {
+    @apply px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest bg-destructive text-destructive-foreground;
+  }
+
+  .audio-indicator {
+    @apply w-2 h-2 rounded-full bg-[hsl(var(--audio-green))];
+    animation: audio-pulse 1s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  .aspect-video-fixed {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@keyframes action-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 hsl(var(--action-red) / 0.4), 0 0 20px hsl(var(--action-red) / 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 4px hsl(var(--action-red) / 0.2), 0 0 40px hsl(var(--action-red) / 0.3);
+  }
+}
+
+@keyframes audio-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes badge-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.7);
 }
