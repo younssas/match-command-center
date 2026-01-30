@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X, Plus, Link2 } from 'lucide-react';
-import { useCommandCenterStore } from '@/stores/commandCenterStore';
+import { useCommandCenterStore, MatchMetrics } from '@/stores/commandCenterStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -14,6 +14,19 @@ interface AddStreamModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+const generateRandomMetrics = (): MatchMetrics => ({
+  intensity: Math.random() * 0.6 + 0.2,
+  motionScore: Math.random() * 0.7 + 0.2,
+  playerDensity: Math.random() * 0.5 + 0.3,
+  ballActivity: Math.random() * 0.6 + 0.2,
+  tacticalZone: 'midfield',
+  tempo: Math.random() * 0.5 + 0.3,
+  momentum: 'neutral',
+  xG: { home: 0, away: 0 },
+  possession: { home: 50, away: 50 },
+  pressure: Math.random() * 0.7 + 0.2,
+});
 
 export const AddStreamModal = ({ open, onOpenChange }: AddStreamModalProps) => {
   const [url, setUrl] = useState('');
@@ -32,14 +45,16 @@ export const AddStreamModal = ({ open, onOpenChange }: AddStreamModalProps) => {
       name: `${teamA || 'Team A'} vs ${teamB || 'Team B'}`,
       teamA: teamA || 'Team A',
       teamB: teamB || 'Team B',
-      score: '0 - 0',
-      matchTime: "1'",
+      score: { home: 0, away: 0 },
+      matchTime: 1,
+      isHalfTime: false,
       isMain: false,
       hasAction: false,
       volume: 80,
       isMuted: true,
       isPlaying: true,
       isLoading: false,
+      metrics: generateRandomMetrics(),
     });
 
     setUrl('');
@@ -56,7 +71,7 @@ export const AddStreamModal = ({ open, onOpenChange }: AddStreamModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="glass-panel border-white/10 max-w-md">
+      <DialogContent className="glass-panel-solid border-white/10 max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Plus className="w-5 h-5 text-primary" />
@@ -87,7 +102,7 @@ export const AddStreamModal = ({ open, onOpenChange }: AddStreamModalProps) => {
                 <button
                   key={i}
                   type="button"
-                  className="text-xs px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-muted-foreground transition-colors"
+                  className="text-xs px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-muted-foreground transition-colors"
                   onClick={() => setUrl(sampleUrl)}
                 >
                   Sample {i + 1}
@@ -100,7 +115,7 @@ export const AddStreamModal = ({ open, onOpenChange }: AddStreamModalProps) => {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <label className="text-sm font-medium text-muted-foreground">
-                Team A
+                Home Team
               </label>
               <Input
                 placeholder="Arsenal"
@@ -111,7 +126,7 @@ export const AddStreamModal = ({ open, onOpenChange }: AddStreamModalProps) => {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-muted-foreground">
-                Team B
+                Away Team
               </label>
               <Input
                 placeholder="Chelsea"
@@ -123,7 +138,7 @@ export const AddStreamModal = ({ open, onOpenChange }: AddStreamModalProps) => {
           </div>
 
           {/* Submit */}
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full bg-gradient-to-r from-primary to-[hsl(var(--intensity-cyan))]">
             <Plus className="w-4 h-4 mr-2" />
             Add Stream
           </Button>
