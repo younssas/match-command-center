@@ -75,6 +75,7 @@ export const useKeyboardShortcuts = () => {
             showSettings: false,
             showAudioMixer: false,
             showShortcuts: false,
+            showAnalytics: false,
           });
           break;
       }
